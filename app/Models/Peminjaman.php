@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Loan extends Model
+class Peminjaman extends Model
 {
-    //
+    // 
 }
