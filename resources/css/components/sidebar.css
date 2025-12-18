@@ -1,0 +1,18 @@
+.sidebar {
+  width: 240px;
+  background: var(--secondary);
+  padding: var(--space-lg);
+}
+
+.sidebar a {
+  display: block;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+  background: var(--primary);
+  color: white;
+}

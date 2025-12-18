@@ -1,3 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './variables.css';
+@import './layout.css';
+
+@import './components/sidebar.css';
+@import './components/header.css';
+@import './components/book-card.css';
