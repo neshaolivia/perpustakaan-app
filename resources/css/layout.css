@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: var(--background);
+  color: var(--text-dark);
+}
+
+.page-home {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--space-lg);
+}

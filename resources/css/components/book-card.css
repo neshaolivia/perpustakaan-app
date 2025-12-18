@@ -1,0 +1,18 @@
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-md);
+}
+
+.book-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+}
+
+.book-cover {
+  height: 180px;
+  background: var(--secondary);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+}

@@ -1,0 +1,13 @@
+:root {
+  --primary: #99BC85;
+  --secondary: #E4EFE7;
+  --background: #FDFAF6;
+  --text-dark: #2F2F2F;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}
