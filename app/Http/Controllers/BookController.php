@@ -21,4 +21,20 @@ class BookController extends Controller
     {
         return Book::findOrFail($id);
     }
+
+    public function update(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+
+        return $book;
+    }
+
+    public function destroy($id)
+    {
+        $book = Book::findOrFail($id);
+        $book->delete();
+
+        return['message' => 'Buku Terhapus'];
+    }
 }
