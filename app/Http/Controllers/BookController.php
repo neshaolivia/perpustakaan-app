@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     /**
-     * Constructor
      * Semua method di controller ini HANYA untuk ADMIN
      */
     public function __construct()
@@ -17,27 +16,18 @@ class BookController extends Controller
         $this->middleware(['auth', 'role:admin']);
     }
 
-    /**
-     * Menampilkan daftar buku (ADMIN)
-     */
     public function index()
     {
         $books = Book::with('kategori')->latest()->get();
         return view('books.index', compact('books'));
     }
 
-    /**
-     * Form tambah buku
-     */
     public function create()
     {
         $kategori = Kategori::all();
         return view('books.create', compact('kategori'));
     }
 
-    /**
-     * Simpan buku baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -55,9 +45,6 @@ class BookController extends Controller
             ->with('success', 'Buku berhasil ditambahkan');
     }
 
-    /**
-     * Form edit buku
-     */
     public function edit($id)
     {
         $book = Book::findOrFail($id);
@@ -66,9 +53,6 @@ class BookController extends Controller
         return view('books.edit', compact('book', 'kategori'));
     }
 
-    /**
-     * Update buku
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -87,9 +71,6 @@ class BookController extends Controller
             ->with('success', 'Buku berhasil diperbarui');
     }
 
-    /**
-     * Hapus buku
-     */
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
