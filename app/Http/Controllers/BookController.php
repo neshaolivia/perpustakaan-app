@@ -3,31 +3,71 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        return Book::with('kategori')->get();
+        $books = Book::with('kategori')->latest()->get();
+
+        return view('books.index', compact('books'));
+    }
+
+    public function create()
+    {
+        $kategori = Kategori::all();
+
+        return view('books.create', compact('kategori'));
     }
 
     public function store(Request $request)
     {
-        return Book::create($request->all());
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'penerbit' => 'required|string|max:255',
+            'tahun_terbit' => 'required|integer',
+            'id_kategori' => 'nullable|exists:kategori,id',
+        ]);
+
+        Book::create($validated);
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Buku berhasil ditambahkan');
     }
 
-    public function show($id)
+    public function edit($id)
     {
-        return Book::findOrFail($id);
+        $book = Book::findOrFail($id);
+        $kategori = Kategori::all();
+
+        return view('books.edit', compact('book', 'kategori'));
     }
 
     public function update(Request $request, $id)
     {
-        $book = Book::findOrFail($id);
-        $book->update($request->all());
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'penerbit' => 'required|string|max:255',
+            'tahun_terbit' => 'required|integer',
+            'id_kategori' => 'nullable|exists:kategori,id',
+        ]);
 
-        return $book;
+        $book = Book::findOrFail($id);
+        $book->update($validated);
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Buku berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -35,6 +75,8 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $book->delete();
 
-        return['message' => 'Buku Terhapus'];
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Buku berhasil dihapus');
     }
 }
