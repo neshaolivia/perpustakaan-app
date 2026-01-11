@@ -13,7 +13,7 @@
             type="text"
             name="search"
             value="{{ request('search') }}"
-            placeholder="Cari judul atau penulis..."
+            placeholder="Cari judul atau author..."
             class="w-full p-3 border rounded-lg focus:ring focus:ring-green-300"
         >
     </form>
@@ -35,17 +35,14 @@
                     {{ $book->judul }}
                 </h2>
 
-                {{-- PENULIS --}}
+                {{-- AUTHOR --}}
                 <p class="text-sm text-gray-600">
-                    {{ $book->penulis }}
+                    {{ $book->author }}
                 </p>
 
-                {{-- STOK --}}
-                <p class="mt-1 text-sm">
-                    Stok:
-                    <span class="{{ $book->stok > 0 ? 'text-green-600' : 'text-red-500' }}">
-                        {{ $book->stok }}
-                    </span>
+                {{-- KATEGORI --}}
+                <p class="text-sm text-gray-500">
+                    Kategori: {{ $book->kategoris->nama_kategoris ?? '-' }}
                 </p>
 
             </div>

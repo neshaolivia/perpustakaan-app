@@ -13,15 +13,16 @@ class Book extends Model
 
     protected $fillable = [
         'judul',
-        'penulis',
-        'penerbit',
-        'tahun_terbit',
-        'id_kategori'
+        'author',
+        'id_kategoris',
+        'description',
+        'cover',
+        'status',
     ];
 
-    public function kategori()
+    public function kategoris()
     {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
+        return $this->belongsTo(Kategoris::class, 'id_kategoris');
     }
 
     public function peminjaman()
