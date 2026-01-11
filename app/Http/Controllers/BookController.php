@@ -8,35 +8,40 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    /**
+     * Semua method di controller ini HANYA untuk ADMIN
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:admin']);
+    }
 
     public function index()
     {
         $books = Book::with('kategori')->latest()->get();
-
         return view('books.index', compact('books'));
     }
 
     public function create()
     {
         $kategori = Kategori::all();
-
         return view('books.create', compact('kategori'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'penerbit'     => 'required|string|max:255',
             'tahun_terbit' => 'required|integer',
-            'id_kategori' => 'nullable|exists:kategori,id',
+            'id_kategori'  => 'nullable|exists:kategori,id',
         ]);
 
         Book::create($validated);
 
         return redirect()
-            ->route('books.index')
+            ->route('books-admin.index')
             ->with('success', 'Buku berhasil ditambahkan');
     }
 
@@ -51,18 +56,18 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'penerbit'     => 'required|string|max:255',
             'tahun_terbit' => 'required|integer',
-            'id_kategori' => 'nullable|exists:kategori,id',
+            'id_kategori'  => 'nullable|exists:kategori,id',
         ]);
 
         $book = Book::findOrFail($id);
         $book->update($validated);
 
         return redirect()
-            ->route('books.index')
+            ->route('books-admin.index')
             ->with('success', 'Buku berhasil diperbarui');
     }
 
@@ -72,7 +77,7 @@ class BookController extends Controller
         $book->delete();
 
         return redirect()
-            ->route('books.index')
+            ->route('books-admin.index')
             ->with('success', 'Buku berhasil dihapus');
     }
 }
