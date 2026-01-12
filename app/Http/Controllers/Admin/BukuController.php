@@ -9,12 +9,9 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin']);
-    }
-
+    /**
+     * Menampilkan daftar buku
+     */
     public function index()
     {
         $books = Book::with('kategoris')->latest()->get();
@@ -22,34 +19,31 @@ class BukuController extends Controller
     }
 
     /**
-     * Menampilkan form tambah buku
+     * Form tambah buku
      */
     public function create()
-{
-    $kategoris = Kategoris::all();
-    return view('admin.buku.create', compact('kategoris'));
-}
+    {
+        $kategoris = Kategoris::all();
+        return view('admin.buku.create', compact('kategoris'));
+    }
 
     /**
-     * Menyimpan data buku ke database
+     * Simpan buku ke database
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul'       => 'required|string|max:255',
-            'author'      => 'required|string|max:255',
+            'judul'        => 'required|string|max:255',
+            'author'       => 'required|string|max:255',
             'id_kategoris' => 'required|exists:kategoris,id',
-            'cover'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'description' => 'nullable|string',
+            'cover'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'description'  => 'nullable|string',
         ]);
 
-        // upload cover jika ada
         if ($request->hasFile('cover')) {
-            $validated['cover'] = $request->file('cover')
-                ->store('covers', 'public');
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
         }
 
-        // set status default
         $validated['status'] = 'Tersedia';
 
         Book::create($validated);
@@ -60,7 +54,7 @@ class BukuController extends Controller
     }
 
     /**
-     * Menampilkan form edit buku
+     * Form edit buku
      */
     public function edit($id)
     {
@@ -71,26 +65,24 @@ class BukuController extends Controller
     }
 
     /**
-     * Update data buku
+     * Update buku
      */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'judul'       => 'required|string|max:255',
-            'author'      => 'required|string|max:255',
+            'judul'        => 'required|string|max:255',
+            'author'       => 'required|string|max:255',
             'id_kategoris' => 'required|exists:kategoris,id',
-            'cover'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'description' => 'nullable|string',
-            'status'      => 'required|string',
+            'status'       => 'required|string',
+            'cover'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'description'  => 'nullable|string',
         ]);
 
         if ($request->hasFile('cover')) {
-            $validated['cover'] = $request->file('cover')
-                ->store('covers', 'public');
+            $validated['cover'] = $request->file('cover')->store('covers', 'public');
         }
 
-        $book = Book::findOrFail($id);
-        $book->update($validated);
+        Book::findOrFail($id)->update($validated);
 
         return redirect()
             ->route('admin.buku.index')
@@ -102,8 +94,7 @@ class BukuController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::findOrFail($id);
-        $book->delete();
+        Book::findOrFail($id)->delete();
 
         return redirect()
             ->route('admin.buku.index')

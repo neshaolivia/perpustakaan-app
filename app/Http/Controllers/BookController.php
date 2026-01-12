@@ -7,18 +7,25 @@ use App\Models\Kategoris;
 
 class BookController extends Controller
 {
+<<<<<<< HEAD
     public function __construct()
     {
         $this->middleware(['auth', 'role:admin']);
     }
 
+=======
+>>>>>>> f4be18794672dcac9f1307bd69139f0e18d29cd8
     public function index()
     {
         $books = Book::with('kategoris')->latest()->get();
         return view('books.index', compact('books'));
     }
 
+<<<<<<< HEAD
     public function create()
+=======
+    public function show($id)
+>>>>>>> f4be18794672dcac9f1307bd69139f0e18d29cd8
     {
         $kategori = Kategoris::all();
         return view('books.create', compact('kategori'));

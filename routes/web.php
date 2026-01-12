@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Dashboard (HARUS LOGIN)
+| Dashboard (Login)
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -26,7 +26,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 /*
 |--------------------------------------------------------------------------
-| Riwayat (HARUS LOGIN)
+| Riwayat (Login)
 |--------------------------------------------------------------------------
 */
 Route::get('/riwayat', [DashboardController::class, 'riwayat'])
@@ -35,7 +35,7 @@ Route::get('/riwayat', [DashboardController::class, 'riwayat'])
 
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATED ROUTES
+| Authenticated Routes
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
     /* =====================
      | Buku (ADMIN)
      ===================== */
-    Route::middleware('role:admin')
+    Route::middleware(['auth', 'role:admin'])
         ->prefix('admin')
         ->name('admin.')
         ->group(function () {
@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Auth Routes (Login, Register, Logout)
+| Auth Routes
 |--------------------------------------------------------------------------
 */
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
