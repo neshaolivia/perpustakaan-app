@@ -46,7 +46,7 @@
         <!-- SEARCH -->
 <div class="px-8 mt-6">
     <div class="relative">
-        
+
         <!-- ICON SEARCH -->
         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
             <svg class="w-5 h-5 text-gray-400"
@@ -94,3 +94,33 @@
 
     </div>
 </x-app-layout>
+
+<!-- DAFTAR BUKU -->
+<div class="px-8 mt-10">
+    <h3 class="text-xl font-bold text-[#2F3E2E] mb-4">
+        Buku Terbaru
+    </h3>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        @forelse($books as $book)
+            <div class="bg-white p-4 rounded-xl shadow">
+                <img
+                    src="{{ $book->cover ? asset('storage/'.$book->cover) : 'https://via.placeholder.com/150' }}"
+                    class="h-40 w-full object-cover rounded-lg"
+                >
+
+                <h4 class="font-semibold mt-2">
+                    {{ $book->judul }}
+                </h4>
+
+                <p class="text-sm text-gray-600">
+                    {{ $book->author ?? '-' }}
+                </p>
+            </div>
+        @empty
+            <p class="text-gray-500 col-span-4">
+                Belum ada buku.
+            </p>
+        @endforelse
+    </div>
+</div>
