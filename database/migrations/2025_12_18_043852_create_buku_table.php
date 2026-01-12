@@ -15,8 +15,8 @@ return new class extends Migration
     $table->id();
     $table->string('judul');
     $table->string('author');
-    $table->foreignId('id_kategoris')
-          ->constrained('kategoris')
+    $table->foreignId('id_kategori')
+          ->constrained('kategori')
           ->cascadeOnDelete();
     $table->string('status');
     $table->string('cover')->nullable();
