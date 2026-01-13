@@ -45,25 +45,52 @@
                 <table class="table align-middle">
                     <thead>
                         <tr>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Status</th>
-                        </tr>
+                        <th>Judul</th>
+                        <th>Penulis</th>
+                        <th>Status</th>
+                            <th class="text-center">Aksi</th>
+                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($books as $buku)
+                    @forelse($books as $buku)
+<tr>
+    <td>{{ $buku->judul }}</td>
+    <td>{{ $buku->author }}</td>
+    <td>
+        <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">
+            {{ $buku->status }}
+        </span>
+    </td>
+
+    <!-- AKSI -->
+    <td class="text-center">
+        <div class="d-flex justify-content-center gap-2">
+
+            <!-- EDIT -->
+            <a href="{{ route('admin.buku.edit', $buku->id) }}"
+               class="btn btn-warning btn-sm rounded-pill px-3">
+                Edit
+            </a>
+
+            <!-- DELETE -->
+            <form action="{{ route('admin.buku.destroy', $buku->id) }}"
+                  method="POST"
+                  onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        class="btn btn-danger btn-sm rounded-pill px-3">
+                    Hapus
+                </button>
+            </form>
+
+        </div>
+    </td>
+</tr>
+@empty
+
                             <tr>
-                                <td>{{ $buku->judul }}</td>
-                                <td>{{ $buku->penulis }}</td>
-                                <td>
-                                    <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">
-                                        {{ $buku->status }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center text-muted py-4">
+                                <td colspan="4" class="text-center text-muted py-4">
                                     Data buku belum tersedia
                                 </td>
                             </tr>
