@@ -60,7 +60,6 @@ class BukuController extends Controller
     {
         $book = Book::findOrFail($id);
         $kategoris = Kategoris::all();
-
         return view('admin.buku.edit', compact('book', 'kategoris'));
     }
 
