@@ -1,24 +1,6 @@
 <x-app-layout>
     <div class="min-h-screen bg-[#EEF5EC]">
 
-        <!-- TOP BAR -->
-        <div class="bg-gradient-to-r from-[#9BBC85] to-[#7FA36A] px-8 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('img/logo.jpeg') }}" class="w-10 rounded-full">
-                <h1 class="text-white text-xl font-bold">Peak Library</h1>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <span class="text-white">{{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="bg-white text-[#7FA36A] px-4 py-2 rounded-lg font-semibold">
-                        Keluar
-                    </button>
-                </form>
-            </div>
-        </div>
-
         <!-- TAB MENU -->
         <div class="bg-white px-8 py-4 flex gap-8 shadow-sm">
             <a class="font-semibold text-[#9BBC85]">Buku</a>
@@ -36,17 +18,18 @@
                 <p class="mb-6">
                     Jelajahi koleksi buku terbaru dan terpopuler di Peak Library
                 </p>
-                <a href="#" class="bg-white text-[#7FA36A] px-6 py-3 rounded-xl font-semibold">
-                    Lihat Buku
+                <a href="{{ route('books.index') }}"
+                   class="bg-white text-[#7FA36A] px-6 py-3 rounded-xl font-semibold">
+                    Lihat Semua Buku
                 </a>
             </div>
         </div>
 
-        <!-- SEARCH -->
+        <!-- SEARCH (UI ONLY) -->
         <div class="px-8 mt-6">
             <input type="text"
                    placeholder="Cari buku di Peak Library"
-                   class="w-full pl-12 rounded-xl border-gray-300
+                   class="w-full pl-4 rounded-xl border-gray-300
                           focus:border-[#9BBC85] focus:ring-[#9BBC85]">
         </div>
 
@@ -63,38 +46,45 @@
             </div>
         </div>
 
-        <!-- ✅ DAFTAR BUKU (DIPINDAHKAN KE DALAM LAYOUT) -->
-        <div class="px-8 mt-10">
-            <h3 class="text-xl font-bold text-[#2F3E2E] mb-4">
+        <!-- BUKU TERBARU -->
+        <div class="px-8 mt-12 pb-10">
+            <h3 class="text-xl font-bold text-[#2F3E2E] mb-6">
                 Buku Terbaru
             </h3>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 @forelse($books as $book)
-                    <div class="bg-white p-4 rounded-xl shadow">
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
 
+                        <!-- KLIK GAMBAR → DETAIL BUKU -->
+                        <a href="{{ route('books.show', $book->id) }}">
+                            <img
+                                src="{{ $book->cover ? asset('storage/'.$book->cover) : 'https://via.placeholder.com/300x400' }}"
+                                alt="{{ $book->judul }}"
+                                class="w-full h-64 object-contain rounded-lg bg-gray-100 hover:scale-105 transition"
+                            >
+                        </a>
 
-
-                  <img
-    src="{{ $book->cover ? asset('storage/'.$book->cover) : 'https://via.placeholder.com/300x400' }}"
-    alt="{{ $book->judul }}"
-    class="w-full h-64 object-contain rounded-lg bg-gray-100"
-/>
-
-
-
-
-                        <h4 class="font-semibold mt-2">
+                        <h4 class="font-semibold mt-3">
                             {{ $book->judul }}
                         </h4>
 
                         <p class="text-sm text-gray-600">
                             {{ $book->author ?? '-' }}
                         </p>
+
+                        <!-- STATUS -->
+                        <p class="mt-2 text-sm">
+                            @if($book->status === 'tersedia')
+                                <span class="text-green-600 font-semibold">Tersedia</span>
+                            @else
+                                <span class="text-red-500 font-semibold">Dipinjam</span>
+                            @endif
+                        </p>
                     </div>
                 @empty
                     <p class="text-gray-500 col-span-4">
-                        Belum ada buku.
+                        Belum ada buku tersedia.
                     </p>
                 @endforelse
             </div>

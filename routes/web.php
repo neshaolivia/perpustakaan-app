@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\BukuController as AdminBukuController;
-
+use App\Http\Controllers\PeminjamanController;
 /*
 |--------------------------------------------------------------------------
 | Landing Page
@@ -60,6 +60,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/books/{id}', [BookController::class, 'show'])
         ->name('books.show');
+
+    /* =====================
+     | Peminjaman Buku (USER)
+     ===================== */
+    Route::get('/peminjaman/{book}', [PeminjamanController::class, 'create'])
+        ->name('peminjaman.create');
+
+    Route::post('/peminjaman', [PeminjamanController::class, 'store'])
+        ->name('peminjaman.store');
+
 
     /* =====================
      | Buku (ADMIN)
