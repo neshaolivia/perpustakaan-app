@@ -96,6 +96,11 @@ Route::middleware('auth')->group(function () {
 
             Route::delete('/buku/{id}', [AdminBukuController::class, 'destroy'])
                 ->name('buku.destroy');
+
+            Route::get('/peminjaman', [\App\Http\Controllers\Admin\PeminjamanController::class, 'index'])
+                ->name('peminjaman.index');
+            Route::put('/peminjaman/{id}', [\App\Http\Controllers\Admin\PeminjamanController::class, 'update'])
+                ->name('peminjaman.update');
         });
 });
 

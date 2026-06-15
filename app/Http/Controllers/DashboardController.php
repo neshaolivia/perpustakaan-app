@@ -17,6 +17,13 @@ class DashboardController extends Controller
             });
         }
 
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function($q) use ($request) {
+                $q->where('judul', 'like', '%' . $request->search . '%')
+                  ->orWhere('author', 'like', '%' . $request->search . '%');
+            });
+        }
+
         $books = $query->take(12)->get();
         $categories = \App\Models\Kategoris::all();
 

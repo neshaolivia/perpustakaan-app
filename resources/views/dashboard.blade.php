@@ -1,14 +1,5 @@
 <x-app-layout>
     <div class="min-h-screen bg-[#EEF5EC]">
-
-        <!-- TAB MENU -->
-        <div class="bg-white px-8 py-4 flex gap-8 shadow-sm">
-            <a class="font-semibold text-[#9BBC85]">Buku</a>
-            <a class="text-gray-500">Peminjaman</a>
-            <a class="text-gray-500">Riwayat</a>
-            <a class="text-gray-500">Bantuan</a>
-        </div>
-
         <!-- HERO BANNER -->
         <div class="px-8 mt-8">
             <div class="bg-gradient-to-r from-[#9BBC85] to-[#7FA36A] rounded-2xl p-10 text-white shadow-lg">
@@ -25,12 +16,19 @@
             </div>
         </div>
 
-        <!-- SEARCH (UI ONLY) -->
+        <!-- SEARCH -->
         <div class="px-8 mt-6">
-            <input type="text"
-                   placeholder="Cari buku di Peak Library"
-                   class="w-full pl-4 rounded-xl border-gray-300
-                          focus:border-[#9BBC85] focus:ring-[#9BBC85]">
+            <form action="{{ route('dashboard') }}" method="GET">
+                @if(request('kategori'))
+                    <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                @endif
+                <input type="text"
+                       name="search"
+                       value="{{ request('search') }}"
+                       placeholder="Cari buku di Peak Library (tekan Enter)"
+                       class="w-full px-4 py-3 rounded-xl border-gray-300
+                              focus:border-[#9BBC85] focus:ring-[#9BBC85]">
+            </form>
         </div>
 
         <!-- KATEGORI -->

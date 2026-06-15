@@ -15,8 +15,22 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-[#EEF5EC]">
             @include('layouts.navigation')
+
+            <!-- TAB MENU (GLOBAL) -->
+            <div class="bg-white px-8 py-4 flex gap-8 shadow-sm">
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Home Page</a>
+                    <a href="{{ route('admin.buku.index') }}" class="{{ request()->routeIs('admin.buku.*') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Kelola Buku</a>
+                    <a href="{{ route('admin.peminjaman.index') }}" class="{{ request()->routeIs('admin.peminjaman.*') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Kelola Peminjaman</a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Buku</a>
+                    <a href="{{ route('riwayat') }}" class="{{ request()->routeIs('riwayat') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Peminjaman</a>
+                    <a href="{{ route('riwayat') }}" class="{{ request()->routeIs('riwayat') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Riwayat</a>
+                    <a href="#" class="text-gray-500 hover:text-[#9BBC85] transition">Bantuan</a>
+                @endif
+            </div>
 
             <!-- Page Heading -->
             @isset($header)

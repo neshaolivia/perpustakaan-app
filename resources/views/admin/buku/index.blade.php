@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Buku - Peak Library</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-[#E4EFE7] text-gray-800">
-
-<!-- NAVBAR -->
-<nav class="flex items-center justify-between px-10 py-6 bg-white shadow-sm">
-    <div class="flex items-center gap-3">
-        <img src="{{ asset('img/logo.jpeg') }}" class="w-10">
-        <span class="text-xl font-bold text-[#99BC85]">Peak Library</span>
-    </div>
-
-    <div class="flex gap-4 items-center">
-        <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-[#99BC85] transition">Dashboard</a>
-        <!-- Form Logout -->
-        <form method="POST" action="{{ route('logout') }}" class="m-0">
-            @csrf
-            <button type="submit" class="px-4 py-2 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition">
-                Logout
-            </button>
-        </form>
-    </div>
-</nav>
+<x-app-layout>
 
 <div class="max-w-6xl mx-auto px-10 py-10">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Kelola Data Buku</h2>
@@ -91,5 +65,4 @@
     </div>
 </div>
 
-</body>
-</html>
+</x-app-layout>
