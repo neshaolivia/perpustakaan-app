@@ -17,7 +17,7 @@
                 <p class="text-gray-600">{{ $book->author }}</p>
                 <p class="mt-2 text-sm">
                     Status:
-                    @if($book->status === 'tersedia')
+                    @if(strtolower($book->status) === 'tersedia')
                         <span class="text-green-600 font-semibold">Tersedia</span>
                     @else
                         <span class="text-red-500 font-semibold">Dipinjam</span>

@@ -35,14 +35,20 @@
 
         <!-- KATEGORI -->
         <div class="px-8 mt-10">
-            <h3 class="text-xl font-bold text-[#2F3E2E] mb-4">
-                Kategori Buku
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow text-center">Novel</div>
-                <div class="bg-white p-6 rounded-xl shadow text-center">Pendidikan</div>
-                <div class="bg-white p-6 rounded-xl shadow text-center">Sejarah</div>
-                <div class="bg-white p-6 rounded-xl shadow text-center">Teknologi</div>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-[#2F3E2E]">Kategori Buku</h3>
+                @if(request('kategori'))
+                    <a href="{{ route('dashboard') }}" class="text-sm text-red-500 hover:underline">Hapus Filter</a>
+                @endif
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                @foreach($categories as $cat)
+                    <a href="{{ route('dashboard', ['kategori' => $cat->nama_kategoris]) }}"
+                       class="p-6 rounded-xl shadow text-center font-medium transition block
+                              {{ request('kategori') == $cat->nama_kategoris ? 'bg-[#9BBC85] text-white' : 'bg-white hover:bg-gray-50 text-gray-800' }}">
+                        {{ $cat->nama_kategoris }}
+                    </a>
+                @endforeach
             </div>
         </div>
 
@@ -75,7 +81,7 @@
 
                         <!-- STATUS -->
                         <p class="mt-2 text-sm">
-                            @if($book->status === 'tersedia')
+                            @if(strtolower($book->status) === 'tersedia')
                                 <span class="text-green-600 font-semibold">Tersedia</span>
                             @else
                                 <span class="text-red-500 font-semibold">Dipinjam</span>
