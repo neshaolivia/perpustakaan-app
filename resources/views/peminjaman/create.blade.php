@@ -41,23 +41,37 @@
             <input type="hidden" name="id_buku" value="{{ $book->id }}">
 
             <div>
-                <label class="block font-semibold mb-1">
-                    Lama Peminjaman (hari)
-                </label>
-                <input type="number"
-                       name="lama_pinjam"
-                       min="1"
-                       max="30"
-                       required
-                       class="w-full rounded-lg border-gray-300
-                              focus:border-[#9BBC85] focus:ring-[#9BBC85]">
-                <p class="text-sm text-gray-500 mt-1">
-                    Maksimal 30 hari
-                </p>
+                <label class="block font-semibold mb-1">Nama</label>
+                <input type="text" name="nama" value="{{ old('nama', Auth::user()->name) }}" required {{ strtolower($book->status) !== 'tersedia' ? 'disabled' : '' }}
+                       class="w-full rounded-lg border-gray-300 focus:border-[#9BBC85] focus:ring-[#9BBC85] {{ strtolower($book->status) !== 'tersedia' ? 'bg-gray-100 text-gray-500' : '' }}">
+                @error('nama') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">NIM</label>
+                <input type="text" name="nim" value="{{ old('nim', Auth::user()->nim) }}" required {{ strtolower($book->status) !== 'tersedia' ? 'disabled' : '' }}
+                       class="w-full rounded-lg border-gray-300 focus:border-[#9BBC85] focus:ring-[#9BBC85] {{ strtolower($book->status) !== 'tersedia' ? 'bg-gray-100 text-gray-500' : '' }}">
+                @error('nim') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Tanggal Peminjaman</label>
+                <input type="date" name="tanggal_pinjam" value="{{ old('tanggal_pinjam', date('Y-m-d')) }}" required {{ strtolower($book->status) !== 'tersedia' ? 'disabled' : '' }}
+                       class="w-full rounded-lg border-gray-300 focus:border-[#9BBC85] focus:ring-[#9BBC85] {{ strtolower($book->status) !== 'tersedia' ? 'bg-gray-100 text-gray-500' : '' }}">
+                @error('tanggal_pinjam') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Tanggal Pengembalian</label>
+                <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali') }}" required {{ strtolower($book->status) !== 'tersedia' ? 'disabled' : '' }}
+                       class="w-full rounded-lg border-gray-300 focus:border-[#9BBC85] focus:ring-[#9BBC85] {{ strtolower($book->status) !== 'tersedia' ? 'bg-gray-100 text-gray-500' : '' }}">
+                <p class="text-sm text-gray-500 mt-1">Maksimal 30 hari dari tanggal peminjaman</p>
+                @error('tanggal_kembali') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <button type="submit"
-                    class="bg-[#7FA36A] text-white px-6 py-2 rounded-lg font-semibold">
+                    {{ strtolower($book->status) !== 'tersedia' ? 'disabled' : '' }}
+                    class="{{ strtolower($book->status) !== 'tersedia' ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#7FA36A] hover:bg-[#6c8c5a]' }} text-white px-6 py-2 rounded-lg font-semibold transition-colors">
                 Ajukan Peminjaman
             </button>
         </form>

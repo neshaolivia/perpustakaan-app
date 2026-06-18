@@ -24,6 +24,13 @@ class PeminjamanController extends Controller
         $peminjaman->status = $request->status;
         $peminjaman->save();
 
+        // Update status ketersediaan buku
+        if ($request->status === 'Dipinjam') {
+            $peminjaman->book->update(['status' => 'Tidak Tersedia']);
+        } elseif ($request->status === 'Dikembalikan') {
+            $peminjaman->book->update(['status' => 'Tersedia']);
+        }
+
         return redirect()->back()->with('success', 'Status peminjaman berhasil diperbarui.');
     }
 }

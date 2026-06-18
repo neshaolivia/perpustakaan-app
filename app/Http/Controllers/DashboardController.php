@@ -34,4 +34,14 @@ class DashboardController extends Controller
             'categories'=> $categories,
         ]);
     }
+
+    public function riwayat()
+    {
+        $peminjamans = \App\Models\Peminjaman::with('book')
+            ->where('id_user', \Illuminate\Support\Facades\Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('peminjaman.riwayat', compact('peminjamans'));
+    }
 }

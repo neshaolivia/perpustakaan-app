@@ -26,9 +26,7 @@
                     <a href="{{ route('admin.peminjaman.index') }}" class="{{ request()->routeIs('admin.peminjaman.*') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Kelola Peminjaman</a>
                 @else
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Buku</a>
-                    <a href="{{ route('riwayat') }}" class="{{ request()->routeIs('riwayat') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Peminjaman</a>
-                    <a href="{{ route('riwayat') }}" class="{{ request()->routeIs('riwayat') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Riwayat</a>
-                    <a href="#" class="text-gray-500 hover:text-[#9BBC85] transition">Bantuan</a>
+                    <a href="{{ route('riwayat') }}" class="{{ request()->routeIs('riwayat') ? 'font-semibold text-[#9BBC85]' : 'text-gray-500 hover:text-[#9BBC85] transition' }}">Riwayat Peminjaman</a>
                 @endif
             </div>
 

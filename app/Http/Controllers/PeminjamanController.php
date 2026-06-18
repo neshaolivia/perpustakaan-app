@@ -22,18 +22,37 @@ class PeminjamanController extends Controller
     {
         $request->validate([
             'id_buku' => 'required|exists:buku,id',
-            'lama_pinjam' => 'required|integer|min:1|max:30'
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:50',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_kembali' => 'required|date|after:tanggal_pinjam',
         ]);
 
         $buku = Book::findOrFail($request->id_buku);
 
         // 1️⃣ Cek status buku
-        if ($buku->status !== 'tersedia') {
-            return back()->with('error', 'Buku sedang tidak tersedia');
+        if (strtolower($buku->status) !== 'tersedia') {
+            return back()->with('error', 'Buku sedang tidak tersedia')->withInput();
         }
 
+        // Cek durasi peminjaman maksimal 30 hari
+        $tglPinjam = Carbon::parse($request->tanggal_pinjam);
+        $tglKembali = Carbon::parse($request->tanggal_kembali);
+
+        if ($tglPinjam->diffInDays($tglKembali) > 30) {
+            return back()->with('error', 'Lama peminjaman maksimal adalah 30 hari dari tanggal peminjaman.')->withInput();
+        }
+
+        $user = Auth::user();
+
+        // Update user profile with name and nim
+        $user->update([
+            'name' => $request->nama,
+            'nim' => $request->nim,
+        ]);
+
         // 2️⃣ Cek jumlah peminjaman aktif user (max 2)
-        $jumlahPinjamAktif = Peminjaman::where('id_user', Auth::id())
+        $jumlahPinjamAktif = Peminjaman::where('id_user', $user->id)
             ->where('status', 'dipinjam')
             ->count();
 
@@ -41,18 +60,12 @@ class PeminjamanController extends Controller
             return back()->with('error', 'Anda sudah meminjam maksimal 2 buku');
         }
 
-        // 3️⃣ Tentukan tanggal
-        $tanggalPinjam = Carbon::now();
-        $lamaPinjam = (int) $request->lama_pinjam; // ⬅ casting ke integer
-            $tanggalKembali = $tanggalPinjam->copy()->addDays($lamaPinjam);
-
-
         // 4️⃣ Simpan peminjaman
         Peminjaman::create([
-            'id_user' => Auth::id(),
+            'id_user' => $user->id,
             'id_buku' => $buku->id,
-            'tanggal_pinjam' => $tanggalPinjam,
-            'tanggal_kembali' => $tanggalKembali,
+            'tanggal_pinjam' => $request->tanggal_pinjam,
+            'tanggal_kembali' => $request->tanggal_kembali,
             'status' => 'dipinjam'
         ]);
 
@@ -62,8 +75,8 @@ class PeminjamanController extends Controller
         ]);
 
         return redirect()
-            ->route('dashboard')
-            ->with('success', 'Peminjaman buku berhasil disetujui');
+            ->route('riwayat')
+            ->with('success', 'Pengajuan peminjaman berhasil diajukan.');
     }
 
     /**
