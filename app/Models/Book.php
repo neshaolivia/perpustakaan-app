@@ -34,4 +34,9 @@ class Book extends Model
     {
         return $this->hasMany(Favorite::class, 'id_buku');
     }
+
+    public function isAvailable()
+    {
+        return strtolower($this->status) === 'tersedia';
+    }
 }

@@ -31,4 +31,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class, 'id_user');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
+
+    public function canBorrow()
+    {
+        $jumlahPinjamAktif = $this->peminjaman()
+            ->where('status', 'dipinjam')
+            ->count();
+
+        return $jumlahPinjamAktif < 2;
+    }
 }
