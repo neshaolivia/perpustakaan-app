@@ -18,5 +18,15 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+
+        User::firstOrCreate(
+            ['email' => 'muhammad@email.com'],
+            [
+                'name' => 'Muhammad',
+                'nim' => '12345678',
+                'password' => Hash::make('muhammad'),
+                'role' => 'anggota',
+            ]
+        );
     }
 }

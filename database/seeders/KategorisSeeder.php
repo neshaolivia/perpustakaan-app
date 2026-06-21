@@ -11,27 +11,27 @@ class KategorisSeeder extends Seeder
     {
         DB::table('kategoris')->insert([
             [
-                'nama_kategori' => 'Teknologi',
+                'nama_kategoris' => 'Teknologi',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kategori' => 'Pendidikan',
+                'nama_kategoris' => 'Pendidikan',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kategori' => 'Komik',
+                'nama_kategoris' => 'Komik',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kategori' => 'Novel',
+                'nama_kategoris' => 'Novel',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kategori' => 'Sejarah',
+                'nama_kategoris' => 'Sejarah',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
